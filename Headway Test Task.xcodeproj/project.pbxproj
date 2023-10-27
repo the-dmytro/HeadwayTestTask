@@ -7,15 +7,20 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		B4BE96442AEBB76A00AFC4EC /* PurchasesFeature.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4BE96432AEBB76900AFC4EC /* PurchasesFeature.swift */; };
+		B4BE96462AEBB77E00AFC4EC /* AudioPlayerFeature.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4BE96452AEBB77E00AFC4EC /* AudioPlayerFeature.swift */; };
+		B4BE96482AEBB7AD00AFC4EC /* BookStoreFeature.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4BE96472AEBB7AD00AFC4EC /* BookStoreFeature.swift */; };
+		B4BE964A2AEBB82F00AFC4EC /* BookSummaryViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4BE96492AEBB82F00AFC4EC /* BookSummaryViewModel.swift */; };
+		B4BE964C2AEBB89B00AFC4EC /* AudioPlayerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4BE964B2AEBB89B00AFC4EC /* AudioPlayerViewModel.swift */; };
+		B4BE964E2AEBC8C100AFC4EC /* AudioPlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4BE964D2AEBC8C100AFC4EC /* AudioPlayer.swift */; };
 		B4BFE18C2AE94C5700F07942 /* Headway_Test_TaskApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4BFE18B2AE94C5700F07942 /* Headway_Test_TaskApp.swift */; };
 		B4BFE18E2AE94C5700F07942 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4BFE18D2AE94C5700F07942 /* ContentView.swift */; };
 		B4BFE1902AE94C5900F07942 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B4BFE18F2AE94C5900F07942 /* Assets.xcassets */; };
 		B4BFE1932AE94C5900F07942 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B4BFE1922AE94C5900F07942 /* Preview Assets.xcassets */; };
-		B4BFE1952AE94C5900F07942 /* Persistence.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4BFE1942AE94C5900F07942 /* Persistence.swift */; };
-		B4BFE1982AE94C5900F07942 /* Headway_Test_Task.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = B4BFE1962AE94C5900F07942 /* Headway_Test_Task.xcdatamodeld */; };
 		B4BFE1A22AE94C5900F07942 /* Headway_Test_TaskTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4BFE1A12AE94C5900F07942 /* Headway_Test_TaskTests.swift */; };
 		B4BFE1AC2AE94C5900F07942 /* Headway_Test_TaskUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4BFE1AB2AE94C5900F07942 /* Headway_Test_TaskUITests.swift */; };
 		B4BFE1AE2AE94C5900F07942 /* Headway_Test_TaskUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4BFE1AD2AE94C5900F07942 /* Headway_Test_TaskUITestsLaunchTests.swift */; };
+		B4BFE1BC2AE94E6000F07942 /* ComposableArchitecture in Frameworks */ = {isa = PBXBuildFile; productRef = B4BFE1BB2AE94E6000F07942 /* ComposableArchitecture */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -36,13 +41,17 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		B4BE96432AEBB76900AFC4EC /* PurchasesFeature.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PurchasesFeature.swift; sourceTree = "<group>"; };
+		B4BE96452AEBB77E00AFC4EC /* AudioPlayerFeature.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioPlayerFeature.swift; sourceTree = "<group>"; };
+		B4BE96472AEBB7AD00AFC4EC /* BookStoreFeature.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookStoreFeature.swift; sourceTree = "<group>"; };
+		B4BE96492AEBB82F00AFC4EC /* BookSummaryViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookSummaryViewModel.swift; sourceTree = "<group>"; };
+		B4BE964B2AEBB89B00AFC4EC /* AudioPlayerViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioPlayerViewModel.swift; sourceTree = "<group>"; };
+		B4BE964D2AEBC8C100AFC4EC /* AudioPlayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioPlayer.swift; sourceTree = "<group>"; };
 		B4BFE1882AE94C5700F07942 /* Headway Test Task.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Headway Test Task.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		B4BFE18B2AE94C5700F07942 /* Headway_Test_TaskApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Headway_Test_TaskApp.swift; sourceTree = "<group>"; };
 		B4BFE18D2AE94C5700F07942 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		B4BFE18F2AE94C5900F07942 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		B4BFE1922AE94C5900F07942 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
-		B4BFE1942AE94C5900F07942 /* Persistence.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Persistence.swift; sourceTree = "<group>"; };
-		B4BFE1972AE94C5900F07942 /* Headway_Test_Task.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Headway_Test_Task.xcdatamodel; sourceTree = "<group>"; };
 		B4BFE19D2AE94C5900F07942 /* Headway Test TaskTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Headway Test TaskTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		B4BFE1A12AE94C5900F07942 /* Headway_Test_TaskTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Headway_Test_TaskTests.swift; sourceTree = "<group>"; };
 		B4BFE1A72AE94C5900F07942 /* Headway Test TaskUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Headway Test TaskUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -55,6 +64,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B4BFE1BC2AE94E6000F07942 /* ComposableArchitecture in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -75,6 +85,33 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		B4BE96402AEBB61A00AFC4EC /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				B4BE96432AEBB76900AFC4EC /* PurchasesFeature.swift */,
+				B4BE96452AEBB77E00AFC4EC /* AudioPlayerFeature.swift */,
+				B4BE96472AEBB7AD00AFC4EC /* BookStoreFeature.swift */,
+				B4BE964D2AEBC8C100AFC4EC /* AudioPlayer.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		B4BE96412AEBB62800AFC4EC /* View-Model */ = {
+			isa = PBXGroup;
+			children = (
+				B4BE96492AEBB82F00AFC4EC /* BookSummaryViewModel.swift */,
+				B4BE964B2AEBB89B00AFC4EC /* AudioPlayerViewModel.swift */,
+			);
+			path = "View-Model";
+			sourceTree = "<group>";
+		};
+		B4BE96422AEBB63000AFC4EC /* View */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
 		B4BFE17F2AE94C5700F07942 = {
 			isa = PBXGroup;
 			children = (
@@ -98,11 +135,12 @@
 		B4BFE18A2AE94C5700F07942 /* Headway Test Task */ = {
 			isa = PBXGroup;
 			children = (
+				B4BE96402AEBB61A00AFC4EC /* Model */,
+				B4BE96412AEBB62800AFC4EC /* View-Model */,
+				B4BE96422AEBB63000AFC4EC /* View */,
 				B4BFE18B2AE94C5700F07942 /* Headway_Test_TaskApp.swift */,
 				B4BFE18D2AE94C5700F07942 /* ContentView.swift */,
 				B4BFE18F2AE94C5900F07942 /* Assets.xcassets */,
-				B4BFE1942AE94C5900F07942 /* Persistence.swift */,
-				B4BFE1962AE94C5900F07942 /* Headway_Test_Task.xcdatamodeld */,
 				B4BFE1912AE94C5900F07942 /* Preview Content */,
 			);
 			path = "Headway Test Task";
@@ -149,6 +187,9 @@
 			dependencies = (
 			);
 			name = "Headway Test Task";
+			packageProductDependencies = (
+				B4BFE1BB2AE94E6000F07942 /* ComposableArchitecture */,
+			);
 			productName = "Headway Test Task";
 			productReference = B4BFE1882AE94C5700F07942 /* Headway Test Task.app */;
 			productType = "com.apple.product-type.application";
@@ -221,6 +262,9 @@
 				Base,
 			);
 			mainGroup = B4BFE17F2AE94C5700F07942;
+			packageReferences = (
+				B4BFE1BA2AE94E6000F07942 /* XCRemoteSwiftPackageReference "swift-composable-architecture" */,
+			);
 			productRefGroup = B4BFE1892AE94C5700F07942 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -263,9 +307,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B4BFE1952AE94C5900F07942 /* Persistence.swift in Sources */,
+				B4BE96442AEBB76A00AFC4EC /* PurchasesFeature.swift in Sources */,
+				B4BE96482AEBB7AD00AFC4EC /* BookStoreFeature.swift in Sources */,
+				B4BE964C2AEBB89B00AFC4EC /* AudioPlayerViewModel.swift in Sources */,
+				B4BE964E2AEBC8C100AFC4EC /* AudioPlayer.swift in Sources */,
 				B4BFE18E2AE94C5700F07942 /* ContentView.swift in Sources */,
-				B4BFE1982AE94C5900F07942 /* Headway_Test_Task.xcdatamodeld in Sources */,
+				B4BE96462AEBB77E00AFC4EC /* AudioPlayerFeature.swift in Sources */,
+				B4BE964A2AEBB82F00AFC4EC /* BookSummaryViewModel.swift in Sources */,
 				B4BFE18C2AE94C5700F07942 /* Headway_Test_TaskApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -355,7 +403,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
@@ -412,7 +460,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
@@ -433,11 +481,13 @@
 				DEVELOPMENT_TEAM = K3FHX47W54;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.education";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -462,11 +512,13 @@
 				DEVELOPMENT_TEAM = K3FHX47W54;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.education";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -597,18 +649,24 @@
 		};
 /* End XCConfigurationList section */
 
-/* Begin XCVersionGroup section */
-		B4BFE1962AE94C5900F07942 /* Headway_Test_Task.xcdatamodeld */ = {
-			isa = XCVersionGroup;
-			children = (
-				B4BFE1972AE94C5900F07942 /* Headway_Test_Task.xcdatamodel */,
-			);
-			currentVersion = B4BFE1972AE94C5900F07942 /* Headway_Test_Task.xcdatamodel */;
-			path = Headway_Test_Task.xcdatamodeld;
-			sourceTree = "<group>";
-			versionGroupType = wrapper.xcdatamodel;
+/* Begin XCRemoteSwiftPackageReference section */
+		B4BFE1BA2AE94E6000F07942 /* XCRemoteSwiftPackageReference "swift-composable-architecture" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/pointfreeco/swift-composable-architecture";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.2.0;
+			};
 		};
-/* End XCVersionGroup section */
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		B4BFE1BB2AE94E6000F07942 /* ComposableArchitecture */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = B4BFE1BA2AE94E6000F07942 /* XCRemoteSwiftPackageReference "swift-composable-architecture" */;
+			productName = ComposableArchitecture;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = B4BFE1802AE94C5700F07942 /* Project object */;
 }
