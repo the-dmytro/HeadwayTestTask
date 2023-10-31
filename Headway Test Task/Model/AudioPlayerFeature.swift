@@ -11,6 +11,10 @@ import AVFoundation
 
 struct AudioPlayerFeature: Reducer {
     
+    // MARK: Dependencies
+    
+    @Dependency(\.audioPlayer) var audioPlayer
+    
     //MARK: Types
     
     enum Failure: Error, Equatable {
@@ -51,12 +55,6 @@ struct AudioPlayerFeature: Reducer {
                 return false
             }
         }
-    }
-    
-    struct AudioMetaData: Equatable {
-        let fileName: String
-        let duration: TimeInterval
-        let keyPoints: [TimeInterval]
     }
     
     struct State: Equatable {
@@ -220,6 +218,4 @@ struct AudioPlayerFeature: Reducer {
             }
         }
     }
-    
-    @Dependency(\.audioPlayer) var audioPlayer
 }

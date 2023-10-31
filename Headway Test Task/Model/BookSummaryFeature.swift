@@ -1,14 +1,14 @@
 //
-// Created by Dmytro Kopanytsia on 31.10.2023.
+//  BookSummaryFeature.swift
+//  Headway Test Task
+//
+//  Created by Dmytro Kopanytsia on 27.10.2023.
 //
 
 import Foundation
 import ComposableArchitecture
 
-struct BookStoreFeature: Reducer {
-    
-    // MARK: Dependencies
-    
+struct BookSummaryFeature: Reducer {
     @Dependency(\.dataProvider) var dataProvider
     
     //MARK: Types
@@ -23,6 +23,8 @@ struct BookStoreFeature: Reducer {
         case loadBooks
         case booksLoaded([BookSummary])
         case selectBook(BookSummary)
+        case loadBook(BookSummary)
+        case bookLoaded(BookSummary)
     }
     
     func reduce(into state: inout State, action: Action) -> Effect<Action> {

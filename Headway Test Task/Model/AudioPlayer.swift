@@ -10,16 +10,19 @@ import AVFoundation
 import ComposableArchitecture
 
 struct AudioPlayer {
-    enum Failure: Error, Equatable {
+    enum DataFailure: Error, Equatable {
         case fileNotFound
         case fileNotLoaded
-        case playerNotLoaded
     }
-    var loadLocalFile: @Sendable (String) async -> Failure?
+    enum PlayingFailure: Error, Equatable {
+        case playerNotLoaded
+        case outOfDurationRange
+    }
+    var loadLocalFile: @Sendable (String) async -> DataFailure?
     var unload: @Sendable () async -> Void
-    var play: @Sendable () async -> Failure?
-    var pause: @Sendable () async -> Failure?
-    var seekToTime: @Sendable (TimeInterval) async -> Failure?
+    var play: @Sendable () async -> PlayingFailure?
+    var pause: @Sendable () async -> PlayingFailure?
+    var seekToTime: @Sendable (TimeInterval) async -> PlayingFailure?
 }
 
 extension AudioPlayer: DependencyKey {
@@ -47,8 +50,8 @@ extension AudioPlayer: DependencyKey {
     private actor Actor {
         private var player: AVAudioPlayer?
         
-        func loadLocalFile(name: String) -> Failure? {
-            if let path = Bundle.main.path(forResource: name, ofType: "mp3") {
+        func loadLocalFile(name: String) -> DataFailure? {
+            if let path = Bundle.main.path(forResource: name, ofType: "aac") {
                 let url = URL(fileURLWithPath: path)
                 do {
                     player = try AVAudioPlayer(contentsOf: url)
@@ -67,7 +70,7 @@ extension AudioPlayer: DependencyKey {
             player = nil
         }
         
-        func play() -> Failure? {
+        func play() -> PlayingFailure? {
             guard let player else {
                 return .playerNotLoaded
             }
@@ -75,7 +78,7 @@ extension AudioPlayer: DependencyKey {
             return nil
         }
         
-        func pause() -> Failure? {
+        func pause() -> PlayingFailure? {
             guard let player else {
                 return .playerNotLoaded
             }
@@ -83,9 +86,12 @@ extension AudioPlayer: DependencyKey {
             return nil
         }
         
-        func seekToTime(_ time: TimeInterval) -> Failure? {
+        func seekToTime(_ time: TimeInterval) -> PlayingFailure? {
             guard let player else {
                 return .playerNotLoaded
+            }
+            guard time >= 0 && time <= player.duration else {
+                return .outOfDurationRange
             }
             player.currentTime = time
             return nil

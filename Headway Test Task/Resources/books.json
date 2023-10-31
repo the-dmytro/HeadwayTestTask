@@ -1,0 +1,25 @@
+{
+  "bookSummaries": [
+    {
+      "id": "1",
+      "title": "Atomic Habits",
+      "coverName": "atomic_habits_cover",
+      "keyPoints": [
+        {
+          "id": "1",
+          "title": "The Compound Effect",
+          "start": 0.0
+        },
+        {
+          "id": "2",
+          "title": "Identity Change",
+          "start": 30.0
+        }
+      ],
+      "audioMetaData": {
+        "fileName": "atomic_habits_audio.mp3",
+        "duration": 3600.0
+      }
+    }
+  ]
+}
