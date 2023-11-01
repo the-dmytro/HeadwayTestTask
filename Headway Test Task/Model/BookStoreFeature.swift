@@ -29,7 +29,10 @@ struct BookStoreFeature: Reducer {
         switch action {
         case .loadBooks:
             state.isLoading = true
-            return .none // TODO: Load books from local storage
+            return .run { send in
+                let books = try await dataProvider.loadBooks()
+                await send(.booksLoaded(books))
+            }
         case .booksLoaded(let books):
             state.isLoading = false
             state.books = books

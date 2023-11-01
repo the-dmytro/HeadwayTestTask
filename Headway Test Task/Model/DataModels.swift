@@ -10,6 +10,7 @@ struct BookSummary: Equatable, Identifiable {
     let coverName: String
     let keyPoints: [BookSummaryKeyPoint]
     let audioMetaData: AudioMetaData
+    let productId: String
 }
 
 extension BookSummary: Decodable {
@@ -19,6 +20,7 @@ extension BookSummary: Decodable {
         case coverName
         case keyPoints
         case audioMetaData
+        case productId
     }
     init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
@@ -27,6 +29,7 @@ extension BookSummary: Decodable {
         coverName = try container.decode(String.self, forKey: CodingKeys.coverName)
         keyPoints = try container.decode([BookSummaryKeyPoint].self, forKey: CodingKeys.keyPoints)
         audioMetaData = try container.decode(AudioMetaData.self, forKey: CodingKeys.audioMetaData)
+        productId = try container.decode(String.self, forKey: CodingKeys.productId)
     }
 }
 

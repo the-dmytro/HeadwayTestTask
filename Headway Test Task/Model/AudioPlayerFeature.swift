@@ -68,7 +68,7 @@ struct AudioPlayerFeature: Reducer {
         case loadMetaData(AudioMetaData)
         case loadFile(String)
         case loaded
-        case loadingError(Error)
+        case unableToLoad(Error)
         
         case play
         case pause
