@@ -16,7 +16,7 @@ struct BookSummaryView: View {
     }
     
     private var bookCover: some View {
-        viewModel.image?
+        viewModel.coverImage?
             .resizable()
             .scaledToFill()
             .cornerRadius(10)

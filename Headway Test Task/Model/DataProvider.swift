@@ -7,6 +7,11 @@ import ComposableArchitecture
 import UIKit
 
 struct DataProvider {
+    enum LoadingFailure: Error {
+        case imageNotFound
+        case imageDataCorrupted
+        case booksNotFound
+    }
     var loadImage: @Sendable (String) async throws -> UIImage?
     var loadBooks: @Sendable () async throws -> [BookSummary]
 }
@@ -38,10 +43,13 @@ extension DataProvider: DependencyKey {
             }
             if let url = url {
                 let data = try Data(contentsOf: url)
-                return UIImage(data: data)
+                guard let image = UIImage(data: data) else {
+                    throw LoadingFailure.imageDataCorrupted
+                }
+                return image
             }
             else {
-                return nil
+                throw LoadingFailure.imageNotFound
             }
         }
         

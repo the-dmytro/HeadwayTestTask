@@ -68,7 +68,7 @@ struct AudioPlayerFeature: Reducer {
         case loadMetaData(AudioMetaData)
         case loadFile(String)
         case loaded
-        case unableToLoad(Error)
+        case loadingFailure(Error)
         
         case play
         case pause
@@ -79,10 +79,9 @@ struct AudioPlayerFeature: Reducer {
         
         case startedPlaying
         case pausedPlaying
-        case unableToPlay(Error)
-        case unableToSeek(Error)
         case updateCurrentTime(TimeInterval)
         case updateDuration(TimeInterval)
+        case playerFailure(Error)
         
         static func ==(lhs: AudioPlayerFeature.Action, rhs: AudioPlayerFeature.Action) -> Bool {
             switch (lhs, rhs) {
@@ -90,7 +89,7 @@ struct AudioPlayerFeature: Reducer {
                 return lhsMetaData == rhsMetaData
             case (.loadFile(let lhsFileName), .loadFile(let rhsFileName)):
                 return lhsFileName == rhsFileName
-            case (.loadingError(let lhsError), .loadingError(let rhsError)), (.unableToPlay(let lhsError), .unableToPlay(let rhsError)), (.unableToSeek(let lhsError), .unableToSeek(let rhsError)):
+            case (.loadingFailure(let lhsError), .loadingFailure(let rhsError)), (.playerFailure(let lhsError), .playerFailure(let rhsError)):
                 return lhsError.localizedDescription == rhsError.localizedDescription
             case (.updateCurrentTime(let lhsTime), .updateCurrentTime(let rhsTime)), (.seekToTime(let lhsTime), .seekToTime(let rhsTime)):
                 return lhsTime == rhsTime
@@ -126,7 +125,7 @@ struct AudioPlayerFeature: Reducer {
         case .loadFile(let fileName):
             return .run { send in
                 if let loadingFailure = await audioPlayer.loadLocalFile(fileName) {
-                    await send(.loadingError(loadingFailure))
+                    await send(.loadingFailure(loadingFailure))
                 }
                 else {
                     await send(.loaded)
@@ -140,7 +139,7 @@ struct AudioPlayerFeature: Reducer {
             state.loadingState = .loaded
             return .none
             
-        case .loadingError(let error):
+        case .loadingFailure(let error):
             state.loadingState = .error(error)
             return .none
             
@@ -149,7 +148,7 @@ struct AudioPlayerFeature: Reducer {
             case .loaded:
                 return .run { send in
                     if let failure = await audioPlayer.play() {
-                        await send(.unableToPlay(failure))
+                        await send(.playerFailure(failure))
                     }
                     else {
                         await send(.startedPlaying)
@@ -165,7 +164,7 @@ struct AudioPlayerFeature: Reducer {
             if state.playingState == .playing {
                 return .run { send in
                     if let failure = await audioPlayer.pause() {
-                        await send(.unableToPlay(failure))
+                        await send(.playerFailure(failure))
                     }
                     else {
                         await send(.pausedPlaying)
@@ -179,7 +178,7 @@ struct AudioPlayerFeature: Reducer {
             if state.loadingState == .loaded {
                 return .run { send in
                     if let failure = await audioPlayer.seekToTime(time) {
-                        await send(.unableToSeek(failure))
+                        await send(.playerFailure(failure))
                     }
                 }
             }
@@ -198,10 +197,10 @@ struct AudioPlayerFeature: Reducer {
         case .pausedPlaying:
             state.playingState = .paused
             return .none
-        case .unableToPlay(let failure):
+        case .playerFailure(let failure):
             state.playingState = .error(failure)
             return .none
-        case .unableToSeek(let failure):
+        case .playerFailure(let failure):
             state.playingState = .error(failure)
             return .none
         case .updateCurrentTime(let time):
@@ -210,7 +209,7 @@ struct AudioPlayerFeature: Reducer {
         case .updateDuration(let duration):
             if let metaData = state.metaData, metaData.duration != duration {
                 return .run { send in
-                    await send(.loadingError(Failure.durationMismatch))
+                    await send(.loadingFailure(Failure.durationMismatch))
                 }
             }
             else {

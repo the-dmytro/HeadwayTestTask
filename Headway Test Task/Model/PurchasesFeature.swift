@@ -40,7 +40,6 @@ struct PurchasesFeature: Reducer {
         var description: String
         var price: String
         var purchasingState: PurchasingState = .notPurchased
-        
     }
     
     enum LoadingState: Equatable {
@@ -102,6 +101,8 @@ struct PurchasesFeature: Reducer {
         }
     }
     
+    // MARK: Reducer
+    
     func reduce(into state: inout State, action: Action) -> Effect<Action> {
         switch action {
         case .loadProducts(let productIds):
@@ -109,7 +110,7 @@ struct PurchasesFeature: Reducer {
             return .run { send in
                 do {
                     let products = try await purchasesProvider.loadProducts(productIds)
-                    await send(.productsLoaded(products))
+                    await send(.productsLoaded(Array(products.values))) // TODO: Make a state with all the available detailed statuses for all the requested product ids
                 }
                 catch {
                     await send(.unableToLoad(error))
