@@ -15,16 +15,16 @@ struct PurchasesProvider {
         case purchasePending
         case unknownPurchaseResult
     }
-    var loadProducts: @Sendable ([Product.ID]) async throws -> [Product.ID: Product]
-    var purchase: @Sendable (Product.ID) async throws -> Void
+    var loadPurchasesAvailability: @Sendable ([Purchase.ID]) async throws -> [Purchase.ID: Purchase]
+    var purchase: @Sendable (Purchase.ID) async throws -> Void
 }
 
 extension PurchasesProvider: DependencyKey {
     static var liveValue: Self {
         let providerActor = Actor()
         return Self(
-            loadProducts: {
-                try await providerActor.loadProducts($0)
+            loadPurchasesAvailability: {
+                try await providerActor.loadPurchasesAvailability($0)
             },
             purchase: {
                 try await providerActor.purchase($0)
@@ -35,12 +35,23 @@ extension PurchasesProvider: DependencyKey {
     private actor Actor {
         private var products: [Product.ID: Product] = [:]
         
-        func loadProducts(_ productIDs: [Product.ID]) async throws -> [Product.ID: Product] {
+        func loadPurchasesAvailability(_ productIDs: [Purchase.ID]) async throws -> [Purchase.ID: Purchase] {
             let products = try await Product.products(for: productIDs)
+            
             self.products = products.reduce(into: [:]) { result, product in
                 result[product.id] = product
             }
-            return self.products
+            
+            let availability = productIDs.reduce(into: [:]) { result, productID in
+                if let product = self.products[productID] {
+                    result[productID] = Purchase(id: productID, title: product.displayName, description: product.description, price: product.displayPrice, purchasingState: .available)
+                }
+                else {
+                    result[productID] = Purchase(id: productID, title: "", description: "", price: "", purchasingState: .notAvailable)
+                }
+            } as [Purchase.ID: Purchase]
+            
+            return availability
         }
         
         func purchase(_ productId: Product.ID) async throws {

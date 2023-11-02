@@ -16,36 +16,10 @@ struct PurchasesFeature: Reducer {
     
     // MARK: Types
     
-    struct Purchase: Equatable {
-        enum PurchasingState: Equatable {
-            case notPurchased
-            case purchasing
-            case purchased
-            case error(Error)
-            
-            static func ==(lhs: PurchasingState, rhs: PurchasingState) -> Bool {
-                switch (lhs, rhs) {
-                case (.notPurchased, .notPurchased), (.purchasing, .purchasing), (.purchased, .purchased):
-                    return true
-                case (.error(let lhsError), .error(let rhsError)):
-                    return lhsError.localizedDescription == rhsError.localizedDescription
-                default:
-                    return false
-                }
-            }
-        }
-        
-        var id: Product.ID
-        var title: String
-        var description: String
-        var price: String
-        var purchasingState: PurchasingState = .notPurchased
-    }
-    
     enum LoadingState: Equatable {
         case notLoaded
         case loading
-        case loaded([Purchase])
+        case loaded([Purchase.ID: Purchase])
         case error(Error)
         
         static func ==(lhs: LoadingState, rhs: LoadingState) -> Bool {
@@ -64,18 +38,16 @@ struct PurchasesFeature: Reducer {
     
     struct State: Equatable {
         var loadingState: LoadingState = .notLoaded
-        var selectedPurchase: Purchase?
+        var purchases: [Purchase.ID: Purchase] = [:]
     }
     
     enum Action: Equatable {
-        case loadProducts([String])
-        case productsLoaded([Product])
+        case loadProducts([Purchase.ID])
+        case productsLoaded([Purchase.ID: Purchase])
         case unableToLoad(Error)
-        case selectPurchase(Purchase)
-        case deselectPurchase
-        case purchase(Purchase)
-        case productPurchased(Purchase)
-        case unableToPurchase(Error)
+        case purchase(Purchase.ID)
+        case productPurchased(Purchase.ID)
+        case unableToPurchase(Purchase.ID, Error)
         
         static func ==(lhs: Action, rhs: Action) -> Bool {
             switch (lhs, rhs) {
@@ -85,16 +57,12 @@ struct PurchasesFeature: Reducer {
                 return lhsPurchases == rhsPurchases
             case (.unableToLoad(let lhsError), .unableToLoad(let rhsError)):
                 return lhsError.localizedDescription == rhsError.localizedDescription
-            case (.selectPurchase(let lhsPurchase), .selectPurchase(let rhsPurchase)):
-                return lhsPurchase == rhsPurchase
-            case (.deselectPurchase, .deselectPurchase):
-                return true
-            case (.purchase(let lhsPurchase), .purchase(let rhsPurchase)):
-                return lhsPurchase == rhsPurchase
-            case (.productPurchased(let lhsPurchases), .productPurchased(let rhsPurchases)):
-                return lhsPurchases == rhsPurchases
-            case (.unableToPurchase(let lhsError), .unableToPurchase(let rhsError)):
-                return lhsError.localizedDescription == rhsError.localizedDescription
+            case (.purchase(let lhsId), .purchase(let rhsId)):
+                return lhsId == rhsId
+            case (.productPurchased(let lhsId), .productPurchased(let rhsId)):
+                return lhsId == rhsId
+            case (.unableToPurchase(let lhsId, let lhsError), .unableToPurchase(let rhsId, let rhsError)):
+                return lhsId == rhsId && lhsError.localizedDescription == rhsError.localizedDescription
             default:
                 return false
             }
@@ -109,51 +77,41 @@ struct PurchasesFeature: Reducer {
             state.loadingState = .loading
             return .run { send in
                 do {
-                    let products = try await purchasesProvider.loadProducts(productIds)
-                    await send(.productsLoaded(Array(products.values))) // TODO: Make a state with all the available detailed statuses for all the requested product ids
+                    let products = try await purchasesProvider.loadPurchasesAvailability(productIds)
+                    await send(.productsLoaded(products)) // TODO: Make a state with all the available detailed statuses for all the requested product ids
                 }
                 catch {
                     await send(.unableToLoad(error))
                 }
             }
             
-        case .productsLoaded(let products):
-            let purchases = products.map { product in
-                Purchase(id: product.id, title: product.displayName, description: product.description, price: product.displayPrice)
-            }
+        case .productsLoaded(let purchases):
             state.loadingState = .loaded(purchases)
+            state.purchases = purchases
             return .none
             
         case .unableToLoad(let error):
             state.loadingState = .error(error)
             return .none
             
-        case .selectPurchase(let purchase):
-            state.selectedPurchase = purchase
-            return .none
-            
-        case .deselectPurchase:
-            state.selectedPurchase = nil
-            return .none
-            
-        case .purchase(let purchase):
-            state.selectedPurchase?.purchasingState = .purchasing
+        case .purchase(let purchaseID):
+            state.purchases[purchaseID]?.purchasingState = .purchasing
             return .run { send in
                 do {
-                    try await purchasesProvider.purchase(purchase.id)
-                    await send(.productPurchased(purchase))
+                    try await purchasesProvider.purchase(purchaseID)
+                    await send(.productPurchased(purchaseID))
                 }
                 catch {
-                    await send(.unableToPurchase(error))
+                    await send(.unableToPurchase(purchaseID, error))
                 }
             }
             
-        case .productPurchased(let purchase):
-            state.selectedPurchase?.purchasingState = .purchased
+        case .productPurchased(let purchaseID):
+            state.purchases[purchaseID]?.purchasingState = .purchased
             return .none
             
-        case .unableToPurchase(let error):
-            state.selectedPurchase?.purchasingState = .error(error)
+        case .unableToPurchase(let purchaseID, let error):
+            state.purchases[purchaseID]?.purchasingState = .error(error)
             return .none
         }
     }

@@ -46,8 +46,6 @@ struct BookSummaryFeature: Reducer {
         case loadCoverImage
         case coverImageLoaded(UIImage)
         case coverImageLoadingError(Error)
-        case selectKeyPoint(BookSummaryKeyPoint)
-        case adjustKeyPointToTime(TimeInterval)
         
         static func ==(lhs: BookSummaryFeature.Action, rhs: BookSummaryFeature.Action) -> Bool {
             switch (lhs, rhs) {
@@ -73,7 +71,9 @@ struct BookSummaryFeature: Reducer {
             state.selectedBook = book
             state.coverImageLoadingState = .notLoaded
             state.selectedKeyPoint = nil
-            return .none
+            return .run { send in
+                await send(.loadCoverImage)
+            }
             
         case .loadCoverImage:
             guard let book = state.selectedBook else {
@@ -97,24 +97,11 @@ struct BookSummaryFeature: Reducer {
         case .coverImageLoadingError(let error):
             state.coverImageLoadingState = .error(error)
             return .none
+            
         case .deselectBook:
             state.selectedBook = nil
             state.coverImageLoadingState = .notLoaded
             state.selectedKeyPoint = nil
-            return .none
-            
-            // TODO: Decide, to separate key points or leave them as a part of BookSummaryFeature
-        case .selectKeyPoint(let keyPoint):
-            state.selectedKeyPoint = keyPoint
-            return .none
-            
-        case .adjustKeyPointToTime(let time):
-            if let keyPoint = state.selectedBook?.keyPoints.first(where: { time > $0.start }) {
-                state.selectedKeyPoint = keyPoint
-            }
-            else {
-                state.selectedKeyPoint = nil
-            }
             return .none
         }
     }

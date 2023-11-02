@@ -7,22 +7,33 @@ import ComposableArchitecture
 
 struct BookKeyPointsFeature: Reducer {
     struct State: Equatable {
-        var keyPoints: [BookSummaryKeyPoint]
-        var selectedKeyPoint: BookSummaryKeyPoint?
+        var keyPoints: [BookSummaryKeyPoint] = []
+        var selectedKeyPoint: BookSummaryKeyPoint? = nil
     }
     
     enum Action: Equatable {
         typealias KeyPointIndex = Int
         
+        case loadKeyPoints([BookSummaryKeyPoint])
         case selectKeyPoint(KeyPointIndex)
+        case keyPointSelected(BookSummaryKeyPoint)
         case adjustKeyPointToTime(TimeInterval)
         case deselectKeyPoint
     }
     
     func reduce(into state: inout State, action: Action) -> Effect<Action> {
         switch action {
+        case .loadKeyPoints(let keyPoints):
+            state.keyPoints = keyPoints
+            state.selectedKeyPoint = keyPoints.first
+            return .none
+        
         case .selectKeyPoint(let index):
             state.selectedKeyPoint = state.keyPoints.indices.contains(index) ? state.keyPoints[index] : nil
+            return .none
+            
+        case .keyPointSelected(let keyPoint):
+            state.selectedKeyPoint = keyPoint
             return .none
         
         case .adjustKeyPointToTime(let time):

@@ -1,25 +1,40 @@
 {
-  "bookSummaries": [
+  "summaries": [
     {
       "id": "1",
-      "title": "Atomic Habits",
+      "title": "Атомні звички",
       "coverName": "atomic_habits_cover",
       "productId": "atomic_habits",
       "keyPoints": [
         {
           "id": "1",
-          "title": "The Compound Effect",
+          "title": "Частина 1: Основи",
           "start": 0.0
         },
         {
           "id": "2",
-          "title": "Identity Change",
-          "start": 30.0
+          "title": "Частина 2: Застосування",
+          "start": 142.0
+        },
+        {
+          "id": "3",
+          "title": "Частина 3: Захист від прикрощів",
+          "start": 284.5
+        },
+        {
+          "id": "4",
+          "title": "Частина 4: Зробіть це простим",
+          "start": 408.5
+        },
+        {
+          "id": "5",
+          "title": "Частина 5: Зробіть це задовільним",
+          "start": 524.2
         }
       ],
       "audioMetaData": {
-        "fileName": "atomic_habits_audio.mp3",
-        "duration": 3600.0
+        "fileName": "atomic_habits_brief_summary_ukr.mp3",
+        "duration": 649.082
       }
     }
   ]

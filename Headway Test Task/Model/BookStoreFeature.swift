@@ -21,6 +21,20 @@ struct BookStoreFeature: Reducer {
     enum Action: Equatable {
         case loadBooks
         case booksLoaded([BookSummary])
+        case error(Error)
+        
+        static func ==(lhs: BookStoreFeature.Action, rhs: BookStoreFeature.Action) -> Bool {
+            switch (lhs, rhs) {
+            case (.loadBooks, .loadBooks):
+                return true
+            case (.booksLoaded(let lhsBooks), .booksLoaded(let rhsBooks)):
+                return lhsBooks == rhsBooks
+            case (.error(let lhsError), .error(let rhsError)):
+                return lhsError.localizedDescription == rhsError.localizedDescription
+            default:
+                return false
+            }
+        }
     }
     
     // MARK: Reducer
@@ -30,12 +44,21 @@ struct BookStoreFeature: Reducer {
         case .loadBooks:
             state.isLoading = true
             return .run { send in
-                let books = try await dataProvider.loadBooks()
-                await send(.booksLoaded(books))
+                do {
+                    let books = try await dataProvider.loadBooks()
+                    await send(.booksLoaded(books))
+                }
+                catch {
+                    await send(.error(error))
+                }
             }
         case .booksLoaded(let books):
             state.isLoading = false
             state.books = books
+            return .none
+            
+        case .error:
+            state.isLoading = false
             return .none
         }
     }

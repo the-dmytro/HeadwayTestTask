@@ -69,6 +69,8 @@ struct AudioPlayerFeature: Reducer {
         case loadFile(String)
         case loaded
         case loadingFailure(Error)
+        case unloadAudio
+        case unloaded
         
         case play
         case pause
@@ -215,6 +217,18 @@ struct AudioPlayerFeature: Reducer {
             else {
                 return .none
             }
+            
+        case .unloadAudio:
+            return .run { send in
+                await audioPlayer.unload()
+            }
+            
+        case .unloaded:
+            state.metaData = nil
+            state.loadingState = .notLoaded
+            state.playingState = .notPlaying
+            state.currentTime = 0
+            return .none
         }
     }
 }

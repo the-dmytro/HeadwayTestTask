@@ -4,6 +4,10 @@
 
 import Foundation
 
+struct BookSummaries: Equatable, Decodable {
+    let summaries: [BookSummary]
+}
+
 struct BookSummary: Equatable, Identifiable {
     let id: String
     let title: String
@@ -46,4 +50,33 @@ struct BookSummaryKeyPoint: Equatable, Identifiable, Comparable, Decodable {
 struct AudioMetaData: Equatable, Decodable {
     let fileName: String
     let duration: TimeInterval
+}
+
+struct Purchase: Equatable {
+    typealias ID = String
+    enum PurchasingState: Equatable {
+        case notLoaded
+        case available
+        case notAvailable
+        case purchasing
+        case purchased
+        case error(Error)
+        
+        static func ==(lhs: PurchasingState, rhs: PurchasingState) -> Bool {
+            switch (lhs, rhs) {
+            case (.notLoaded, .notLoaded), (.available, .available), (.notAvailable, .notAvailable), (.purchasing, .purchasing), (.purchased, .purchased):
+                return true
+            case (.error(let lhsError), .error(let rhsError)):
+                return lhsError.localizedDescription == rhsError.localizedDescription
+            default:
+                return false
+            }
+        }
+    }
+    
+    var id: ID
+    var title: String
+    var description: String
+    var price: String
+    var purchasingState: PurchasingState = .notLoaded
 }

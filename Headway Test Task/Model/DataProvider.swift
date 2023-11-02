@@ -54,11 +54,10 @@ extension DataProvider: DependencyKey {
         }
         
         func loadBooks() async throws -> [BookSummary] {
-            if let path = Bundle.main.path(forResource: "books", ofType: "json") {
-                let url = URL(fileURLWithPath: path)
+            if let url = Bundle.main.url(forResource: "books", withExtension: "json") {
                 let data = try Data(contentsOf: url)
                 let decoder = JSONDecoder()
-                return try decoder.decode([BookSummary].self, from: data)
+                return try decoder.decode(BookSummaries.self, from: data).summaries
             }
             else {
                 return []
