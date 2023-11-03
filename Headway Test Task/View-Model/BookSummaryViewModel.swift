@@ -16,6 +16,7 @@ class BookSummaryViewModel: ObservableObject {
     @Published private(set) var keyPointsNumber: Int = 0
     @Published private(set) var currentKeyPoint: Int = 0
     @Published private(set) var currentKeyPointTitle: String = ""
+    @Published var displayChapterList: Bool = false
     
     private var cancellableSet: Set<AnyCancellable> = []
     
@@ -67,14 +68,16 @@ class BookSummaryViewModel: ObservableObject {
             }
             .store(in: &cancellableSet)
         
-        store.scope(state: { $0.bookSummary.selectedKeyPoint }, action: AppAction.bookSummary)
+        store.scope(state: { $0.bookKeyPoints.selectedKeyPoint }, action: AppAction.bookKeyPoints)
             .publisher
-            .sink { [weak self] keyPoint in
+            .combineLatest(store.scope(state: { $0.bookKeyPoints.keyPoints }, action: AppAction.bookKeyPoints).publisher)
+            .sink { [weak self] value in
                 guard let self else {
                     return
                 }
-                if let keyPoint = keyPoint {
-                    // TODO: set index of key point
+                
+                if let keyPoint = value.0, let index = value.1.firstIndex(where: { $0.id == keyPoint.id }) {
+                    self.currentKeyPoint = index + 1
                     self.currentKeyPointTitle = keyPoint.title
                 } else {
                     self.currentKeyPoint = 0

@@ -10,11 +10,9 @@ import ComposableArchitecture
 
 @main
 struct Headway_Test_TaskApp: App {
-    let appCore = AppCore()
-    
     var body: some Scene {
         WindowGroup {
-            ContentView(appCore: appCore)
+            ContentView()
         }
     }
 }

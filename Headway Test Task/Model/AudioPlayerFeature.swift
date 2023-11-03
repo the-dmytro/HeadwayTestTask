@@ -111,10 +111,10 @@ struct AudioPlayerFeature: Reducer {
         switch action {
         case .loadMetaData(let metaData):
             if state.playingState == .playing {
-                return .run { send in
-                    await send(.pause)
-                    await send(.loadMetaData(metaData))
-                }
+                return .merge(
+                    .send(.pause),
+                    .send(.loadMetaData(metaData))
+                )
             }
             else {
                 state.metaData = metaData
@@ -126,15 +126,15 @@ struct AudioPlayerFeature: Reducer {
             
         case .loadFile(let fileName):
             return .run { send in
+                await audioPlayer.setCurrentTimeUpdateCallback({ time in
+                    await send(.updateCurrentTime(time))
+                })
                 if let loadingFailure = await audioPlayer.loadLocalFile(fileName) {
                     await send(.loadingFailure(loadingFailure))
                 }
                 else {
                     await send(.loaded)
                 }
-                
-                // TODO: add send(.updateCurrentTime(time.seconds)) to a player
-                // TODO: add .updateDuration(playerItem.asset.duration.seconds) to a player
             }
             
         case .loaded:
@@ -198,9 +198,6 @@ struct AudioPlayerFeature: Reducer {
             return .none
         case .pausedPlaying:
             state.playingState = .paused
-            return .none
-        case .playerFailure(let failure):
-            state.playingState = .error(failure)
             return .none
         case .playerFailure(let failure):
             state.playingState = .error(failure)

@@ -8,29 +8,32 @@ struct AudioPlayerView: View {
     @ObservedObject var viewModel: AudioPlayerViewModel
     
     var body: some View {
-        VStack {
+        VStack(spacing: 16) {
             slider
-                .padding()
-            Spacer()
             buttons
-                .padding()
         }
+            .padding(16)
+            .disabled(viewModel.isLoaded == false)
+            .opacity(viewModel.isLoaded ? 1 : 0.5)
     }
     
     private var slider: some View {
         Slider(value: $viewModel.currentTime,
+            in: 0...viewModel.duration,
             onEditingChanged: { editing in
                 if !editing {
                     viewModel.seekToTimeAction(viewModel.currentTime)
                 }
             },
-            minimumValueLabel: Text("\(viewModel.currentTime)"),
-            maximumValueLabel: Text("\(viewModel.duration)"),
-            label: { EmptyView() })
+            minimumValueLabel: Text(viewModel.currentTimeText),
+            maximumValueLabel: Text(viewModel.durationText),
+            label: { EmptyView() }
+        )
+            .font(.system(size: 12))
     }
     
     private var buttons: some View {
-        HStack {
+        HStack(spacing: 16) {
             seekToStartButton
             goBackward5SecondsButton
             playPauseButton
@@ -44,7 +47,7 @@ struct AudioPlayerView: View {
             viewModel.seekToStartAction()
         }, label: {
             Image(systemName: "backward.end.fill")
-                .font(.title)
+                .playerButtonStyle(.small)
         })
     }
     
@@ -53,7 +56,7 @@ struct AudioPlayerView: View {
             viewModel.goBackward5SecondsAction()
         }, label: {
             Image(systemName: "gobackward.5")
-                .font(.title)
+                .playerButtonStyle(.medium)
         })
     }
     
@@ -62,8 +65,7 @@ struct AudioPlayerView: View {
             viewModel.playPauseButtonAction()
         }) {
             Image(systemName: viewModel.isPlaying ? "pause.fill" : "play.fill")
-                .font(.system(size: 50))
-                .foregroundColor(.blue)
+                .playerButtonStyle(.large)
         }
     }
     
@@ -72,7 +74,7 @@ struct AudioPlayerView: View {
             viewModel.goForward10SecondsAction()
         }, label: {
             Image(systemName: "goforward.10")
-                .font(.title)
+                .playerButtonStyle(.medium)
         })
     }
     
@@ -81,7 +83,44 @@ struct AudioPlayerView: View {
             viewModel.seekToStartAction()
         }, label: {
             Image(systemName: "forward.end.fill")
-                .font(.title)
+                .playerButtonStyle(.small)
         })
+    }
+    
+    private var minimumValueLabel: some View {
+        Text(viewModel.currentTimeText)
+            .font(.system(size: 12))
+            .foregroundColor(.gray)
+    }
+    
+    private var maximumValueLabel: some View {
+        Text(viewModel.durationText)
+            .font(.system(size: 12))
+            .foregroundColor(.gray)
+    }
+}
+
+struct PlayerButtonStyle: ViewModifier {
+    enum PlayerButtonStyleType: CGFloat {
+        case small = 23
+        case medium = 28
+        case large = 36
+    }
+    
+    let type: PlayerButtonStyleType
+    init(_ type: PlayerButtonStyleType = .medium) {
+        self.type = type
+    }
+    
+    func body(content: Content) -> some View {
+        content
+            .font(.system(size: type.rawValue))
+            .foregroundColor(.black)
+    }
+}
+
+extension Image {
+    func playerButtonStyle(_ type: PlayerButtonStyle.PlayerButtonStyleType) -> some View {
+        self.modifier(PlayerButtonStyle(type))
     }
 }

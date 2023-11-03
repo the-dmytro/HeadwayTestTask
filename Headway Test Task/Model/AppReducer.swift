@@ -5,20 +5,20 @@
 import Foundation
 import ComposableArchitecture
 
-struct AppState: Equatable {
-    var bookStore: BookStoreFeature.State = .init()
-    var bookSummary: BookSummaryFeature.State = .init()
-    var bookKeyPoints: BookKeyPointsFeature.State = .init()
-    var audioPlayer: AudioPlayerFeature.State = .init()
-    var purchases: PurchasesFeature.State = .init()
-}
-
 enum AppAction: Equatable {
     case bookStore(BookStoreFeature.Action)
     case bookSummary(BookSummaryFeature.Action)
     case bookKeyPoints(BookKeyPointsFeature.Action)
     case audioPlayer(AudioPlayerFeature.Action)
     case purchases(PurchasesFeature.Action)
+}
+
+struct AppState: Equatable {
+    var bookStore: BookStoreFeature.State = .init()
+    var bookSummary: BookSummaryFeature.State = .init()
+    var bookKeyPoints: BookKeyPointsFeature.State = .init()
+    var audioPlayer: AudioPlayerFeature.State = .init()
+    var purchases: PurchasesFeature.State = .init()
 }
 
 struct AppReducer: Reducer {
@@ -50,7 +50,7 @@ struct AppReducer: Reducer {
                 .map { Action.bookSummary($0) }
             
         case .bookKeyPoints(let action):
-            return bookKeyPoints.reduce(into: &state.bookSummary.bookKeyPoints, action: action)
+            return bookKeyPoints.reduce(into: &state.bookKeyPoints, action: action)
                 .map { Action.bookKeyPoints($0) }
             
         case .audioPlayer(let action):

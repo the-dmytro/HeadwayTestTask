@@ -37,7 +37,6 @@ struct BookSummaryFeature: Reducer {
     struct State: Equatable {
         var selectedBook: BookSummary?
         var coverImageLoadingState: CoverLoadingState = .notLoaded
-        var selectedKeyPoint: BookSummaryKeyPoint?
     }
     
     enum Action: Equatable {
@@ -70,7 +69,6 @@ struct BookSummaryFeature: Reducer {
         case .selectBook(let book):
             state.selectedBook = book
             state.coverImageLoadingState = .notLoaded
-            state.selectedKeyPoint = nil
             return .run { send in
                 await send(.loadCoverImage)
             }
@@ -101,7 +99,6 @@ struct BookSummaryFeature: Reducer {
         case .deselectBook:
             state.selectedBook = nil
             state.coverImageLoadingState = .notLoaded
-            state.selectedKeyPoint = nil
             return .none
         }
     }

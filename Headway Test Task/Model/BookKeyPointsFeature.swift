@@ -12,7 +12,7 @@ struct BookKeyPointsFeature: Reducer {
     }
     
     enum Action: Equatable {
-        typealias KeyPointIndex = Int
+        typealias KeyPointIndex = String
         
         case loadKeyPoints([BookSummaryKeyPoint])
         case selectKeyPoint(KeyPointIndex)
@@ -29,15 +29,19 @@ struct BookKeyPointsFeature: Reducer {
             return .none
         
         case .selectKeyPoint(let index):
-            state.selectedKeyPoint = state.keyPoints.indices.contains(index) ? state.keyPoints[index] : nil
-            return .none
+            if let keyPoint = state.keyPoints.first(where: { $0.id == index }) {
+                return .send(.keyPointSelected(keyPoint))
+            }
+            else {
+                return .send(.deselectKeyPoint)
+            }
             
         case .keyPointSelected(let keyPoint):
             state.selectedKeyPoint = keyPoint
             return .none
         
         case .adjustKeyPointToTime(let time):
-            if let keyPoint = state.keyPoints.first(where: { time > $0.start }) {
+            if let keyPoint = state.keyPoints.last(where: { time >= $0.start }) {
                 state.selectedKeyPoint = keyPoint
             } else {
                 state.selectedKeyPoint = nil

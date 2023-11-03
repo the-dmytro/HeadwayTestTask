@@ -49,6 +49,11 @@ struct ScenarioFeature: Reducer {
         switch action {
         case .deselectBook:
             return .send(.audioPlayer(.unloadAudio))
+        case .selectBook(let book):
+            return .merge(
+                .send(.bookKeyPoints(.loadKeyPoints(book.keyPoints))),
+                .send(.audioPlayer(.loadMetaData(book.audioMetaData)))
+            )
         default:
             return .none
         }

@@ -78,7 +78,7 @@ struct PurchasesFeature: Reducer {
             return .run { send in
                 do {
                     let products = try await purchasesProvider.loadPurchasesAvailability(productIds)
-                    await send(.productsLoaded(products)) // TODO: Make a state with all the available detailed statuses for all the requested product ids
+                    await send(.productsLoaded(products))
                 }
                 catch {
                     await send(.unableToLoad(error))
