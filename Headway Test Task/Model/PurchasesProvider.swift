@@ -44,10 +44,10 @@ extension PurchasesProvider: DependencyKey {
             
             let availability = productIDs.reduce(into: [:]) { result, productID in
                 if let product = self.products[productID] {
-                    result[productID] = Purchase(id: productID, title: product.displayName, description: product.description, price: product.displayPrice, purchasingState: .available)
+                    result[productID] = Purchase(id: productID, title: product.displayName, description: product.description, price: product.displayPrice, status: .available)
                 }
                 else {
-                    result[productID] = Purchase(id: productID, title: "", description: "", price: "", purchasingState: .notAvailable)
+                    result[productID] = Purchase(id: productID, title: "", description: "", price: "", status: .notAvailable)
                 }
             } as [Purchase.ID: Purchase]
             

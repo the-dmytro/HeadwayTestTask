@@ -7,9 +7,11 @@ import ComposableArchitecture
 
 struct AppCore {
     var store: Store<AppState, AppAction>
+    var booksViewModel: () -> BooksViewModel
     var bookSummaryViewModel: () -> BookSummaryViewModel
     var audioPlayerViewModel: () -> AudioPlayerViewModel
     var keyPointsListViewModel: () -> KeyPointsListViewModel
+    var payWallViewModel: () -> PayWallViewModel
 }
 
 extension AppCore: DependencyKey {
@@ -17,9 +19,11 @@ extension AppCore: DependencyKey {
         let actor = Actor()
         return Self(
             store: actor.store,
+            booksViewModel: actor.booksViewModel,
             bookSummaryViewModel: actor.bookSummaryViewModel,
             audioPlayerViewModel: actor.audioPlayerViewModel,
-            keyPointsListViewModel: actor.keyPointsListViewModel
+            keyPointsListViewModel: actor.keyPointsListViewModel,
+            payWallViewModel: actor.payWallViewModel
         )
     }
     
@@ -33,6 +37,10 @@ extension AppCore: DependencyKey {
             store.send(.bookStore(.loadBooks))
         }
         
+        func booksViewModel() -> BooksViewModel {
+            BooksViewModel(store: store)
+        }
+        
         func bookSummaryViewModel() -> BookSummaryViewModel {
             BookSummaryViewModel(store: store)
         }
@@ -43,6 +51,10 @@ extension AppCore: DependencyKey {
         
         func keyPointsListViewModel() -> KeyPointsListViewModel {
             KeyPointsListViewModel(store: store)
+        }
+        
+        func payWallViewModel() -> PayWallViewModel {
+            PayWallViewModel(store: store)
         }
     }
 }

@@ -39,12 +39,15 @@ struct PurchasesFeature: Reducer {
     struct State: Equatable {
         var loadingState: LoadingState = .notLoaded
         var purchases: [Purchase.ID: Purchase] = [:]
+        var selectedPurchase: Purchase?
     }
     
     enum Action: Equatable {
         case loadProducts([Purchase.ID])
         case productsLoaded([Purchase.ID: Purchase])
         case unableToLoad(Error)
+        case selectPurchase(Purchase.ID)
+        case deselectPurchase
         case purchase(Purchase.ID)
         case productPurchased(Purchase.ID)
         case unableToPurchase(Purchase.ID, Error)
@@ -57,10 +60,10 @@ struct PurchasesFeature: Reducer {
                 return lhsPurchases == rhsPurchases
             case (.unableToLoad(let lhsError), .unableToLoad(let rhsError)):
                 return lhsError.localizedDescription == rhsError.localizedDescription
-            case (.purchase(let lhsId), .purchase(let rhsId)):
+            case (.purchase(let lhsId), .purchase(let rhsId)), (.selectPurchase(let lhsId), .selectPurchase(let rhsId)), (.productPurchased(let lhsId), .productPurchased(let rhsId)):
                 return lhsId == rhsId
-            case (.productPurchased(let lhsId), .productPurchased(let rhsId)):
-                return lhsId == rhsId
+            case (.deselectPurchase, .deselectPurchase):
+                return true
             case (.unableToPurchase(let lhsId, let lhsError), .unableToPurchase(let rhsId, let rhsError)):
                 return lhsId == rhsId && lhsError.localizedDescription == rhsError.localizedDescription
             default:
@@ -75,6 +78,8 @@ struct PurchasesFeature: Reducer {
         switch action {
         case .loadProducts(let productIds):
             state.loadingState = .loading
+            state.purchases = productIds.reduce(into: [:]) { $0[$1] = Purchase(id: $1) }
+            state.selectedPurchase = nil
             return .run { send in
                 do {
                     let products = try await purchasesProvider.loadPurchasesAvailability(productIds)
@@ -87,15 +92,28 @@ struct PurchasesFeature: Reducer {
             
         case .productsLoaded(let purchases):
             state.loadingState = .loaded(purchases)
-            state.purchases = purchases
+            state.purchases = state.purchases.reduce(into: [:]) { $0[$1.key] = purchases[$1.key] }
+            state.selectedPurchase = nil
             return .none
             
         case .unableToLoad(let error):
             state.loadingState = .error(error)
+            state.selectedPurchase?.status = .error(error)
+            return .none
+            
+        case .selectPurchase(let purchaseID):
+            state.selectedPurchase = state.purchases[purchaseID]
+            return .none
+            
+        case .deselectPurchase:
+            state.selectedPurchase = nil
             return .none
             
         case .purchase(let purchaseID):
-            state.purchases[purchaseID]?.purchasingState = .purchasing
+            state.purchases[purchaseID]?.status = .purchasing
+            if state.selectedPurchase?.id == purchaseID {
+                state.selectedPurchase?.status = .purchasing
+            }
             return .run { send in
                 do {
                     try await purchasesProvider.purchase(purchaseID)
@@ -107,11 +125,17 @@ struct PurchasesFeature: Reducer {
             }
             
         case .productPurchased(let purchaseID):
-            state.purchases[purchaseID]?.purchasingState = .purchased
+            state.purchases[purchaseID]?.status = .purchased
+            if state.selectedPurchase?.id == purchaseID {
+                state.selectedPurchase?.status = .purchased
+            }
             return .none
             
         case .unableToPurchase(let purchaseID, let error):
-            state.purchases[purchaseID]?.purchasingState = .error(error)
+            state.purchases[purchaseID]?.status = .error(error)
+            if state.selectedPurchase?.id == purchaseID {
+                state.selectedPurchase?.status = .error(error)
+            }
             return .none
         }
     }

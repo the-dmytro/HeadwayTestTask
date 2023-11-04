@@ -31,7 +31,7 @@ struct KeyPointView: View {
         VStack(alignment: .leading) {
             Text(keyPoint.title)
                 .font(.system(size: 14, weight: .regular))
-                .foregroundColor(isSelected ? .black : .gray)
+                .foregroundColor(isSelected ? .invertibleBlack : .appGray)
                 .padding(EdgeInsets(top: 4, leading: 8, bottom: 4, trailing: 8))
         }
         .frame(maxWidth: .infinity, alignment: .leading)

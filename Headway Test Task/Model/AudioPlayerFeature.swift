@@ -59,6 +59,7 @@ struct AudioPlayerFeature: Reducer {
     
     struct State: Equatable {
         var metaData: AudioMetaData?
+        var cuePoints: [TimeInterval] = []
         var loadingState: AudioLoadingState = .notLoaded
         var playingState: AudioPlayingState = .notPlaying
         var currentTime: TimeInterval = 0
@@ -68,6 +69,7 @@ struct AudioPlayerFeature: Reducer {
         case loadMetaData(AudioMetaData)
         case loadFile(String)
         case loaded
+        case loadCuePoints([TimeInterval])
         case loadingFailure(Error)
         case unloadAudio
         case unloaded
@@ -141,6 +143,10 @@ struct AudioPlayerFeature: Reducer {
             state.loadingState = .loaded
             return .none
             
+        case .loadCuePoints(let cuePoints):
+            state.cuePoints = cuePoints
+            return .none
+            
         case .loadingFailure(let error):
             state.loadingState = .error(error)
             return .none
@@ -160,8 +166,7 @@ struct AudioPlayerFeature: Reducer {
             default:
                 return .none
             }
-        
-        
+            
         case .pause:
             if state.playingState == .playing {
                 return .run { send in
@@ -176,6 +181,7 @@ struct AudioPlayerFeature: Reducer {
             else {
                 return .none
             }
+            
         case .seekToTime(let time):
             if state.loadingState == .loaded {
                 return .run { send in
@@ -187,24 +193,62 @@ struct AudioPlayerFeature: Reducer {
             else {
                 return .none
             }
+            
         case .seekToNextKeyPoint:
-            // TODO: Seek to next key point
-            return .none
+            if let cuePoint = state.cuePoints.first(where: { $0 > state.currentTime }) {
+                return .run { send in
+                    if let failure = await audioPlayer.seekToTime(cuePoint) {
+                        await send(.playerFailure(failure))
+                    }
+                }
+            }
+            else {
+                return .none
+            }
+            
         case .seekToPreviousKeyPoint:
-            // TODO: Seek to previous key point
-            return .none
+            if let cuePoint = state.cuePoints.last(where: { $0 < state.currentTime }) {
+                if state.currentTime - cuePoint < 5, let index = state.cuePoints.firstIndex(of: cuePoint), index >= 1 {
+                    let previousCuePoint = state.cuePoints[index - 1]
+                    return .run { send in
+                        if let failure = await audioPlayer.seekToTime(previousCuePoint) {
+                            await send(.playerFailure(failure))
+                        }
+                    }
+                }
+                else {
+                    return .run { send in
+                        if let failure = await audioPlayer.seekToTime(cuePoint) {
+                            await send(.playerFailure(failure))
+                        }
+                    }
+                }
+            }
+            else {
+                return .none
+            }
+            
         case .startedPlaying:
             state.playingState = .playing
             return .none
+            
         case .pausedPlaying:
             state.playingState = .paused
             return .none
+            
         case .playerFailure(let failure):
             state.playingState = .error(failure)
             return .none
+            
         case .updateCurrentTime(let time):
             state.currentTime = time
-            return .none
+            if time > state.metaData?.duration ?? 0 {
+                return .send(.pause).concatenate(with: .send(.seekToTime(0)))
+            }
+            else {
+                return .none
+            }
+            
         case .updateDuration(let duration):
             if let metaData = state.metaData, metaData.duration != duration {
                 return .run { send in
@@ -225,6 +269,7 @@ struct AudioPlayerFeature: Reducer {
             state.loadingState = .notLoaded
             state.playingState = .notPlaying
             state.currentTime = 0
+            state.cuePoints = []
             return .none
         }
     }

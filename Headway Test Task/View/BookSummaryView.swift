@@ -11,9 +11,10 @@ struct BookSummaryView: View {
     
     var body: some View {
         VStack(alignment: .center) {
-            bookCover
-            currentKeyPointLabel
-            currentKeyPointTitle
+            bookCoverView
+            Spacer()
+            bookInfoView
+            Spacer()
             if viewModel.displayChapterList {
                 keyPointList
             } else {
@@ -24,6 +25,19 @@ struct BookSummaryView: View {
         }
     }
     
+    private var bookCoverView: some View {
+        ZStack {
+            Color.clear
+            if viewModel.isCoverImageLoading {
+                LoadingView()
+            }
+            else {
+                bookCover
+            }
+        }
+            .frame(height: 400)
+    }
+    
     private var bookCover: some View {
         viewModel.coverImage?
             .resizable()
@@ -32,18 +46,26 @@ struct BookSummaryView: View {
             .padding(EdgeInsets(top: 48, leading: 64, bottom: 24, trailing: 64))
     }
     
+    private var bookInfoView: some View {
+        VStack {
+            currentKeyPointLabel
+            currentKeyPointTitle
+        }
+            .padding(EdgeInsets(top: 0, leading: 16, bottom: 0, trailing: 16))
+    }
+    
     private var currentKeyPointLabel: some View {
         Text("KEY POINT \(viewModel.currentKeyPoint) OF \(viewModel.keyPointsNumber)")
             .lineLimit(2)
             .font(.system(size: 12, weight: .bold))
-            .foregroundColor(.gray)
+            .foregroundColor(.appGray)
             .padding(EdgeInsets(top: 4, leading: 8, bottom: 4, trailing: 8))
     }
     
     private var currentKeyPointTitle: some View {
         Text(viewModel.currentKeyPointTitle)
             .font(.system(size: 14, weight: .regular))
-            .foregroundColor(.black)
+            .foregroundColor(.invertibleBlack)
             .padding(EdgeInsets(top: 4, leading: 8, bottom: 4, trailing: 8))
     }
     
@@ -53,6 +75,7 @@ struct BookSummaryView: View {
     
     private var keyPointList: some View {
         KeyPointsListView(viewModel: appCore.keyPointsListViewModel())
+            .padding(EdgeInsets(top: 0, leading: 16, bottom: 0, trailing: 16))
     }
     
     private var modeToggle: some View {
@@ -60,43 +83,5 @@ struct BookSummaryView: View {
             Text("Toggle Label")
         })
             .toggleStyle(CustomToggleStyle())
-    }
-}
-
-struct CustomToggleStyle: ToggleStyle {
-    func makeBody(configuration: Configuration) -> some View {
-        ZStack {
-            RoundedRectangle(cornerRadius: 30, style: .circular)
-                .fill(Color.white)
-                .frame(width: 110, height: 60)
-                .overlay(
-                    Circle()
-                        .fill(Color.blue)
-                        .padding(3)
-                        .offset(x: configuration.isOn ? 25 : -25)
-                )
-                .addBorder(Color.gray, width: 0.5, cornerRadius: 30)
-                .onTapGesture {
-                    withAnimation {
-                        configuration.isOn.toggle()
-                    }
-                }
-            HStack(spacing: 20) {
-                Image(systemName: "headphones")
-                    .foregroundColor(configuration.isOn ? .black : .white)
-                    .font(.system(size: 24))
-                Image(systemName: "list.bullet")
-                    .foregroundColor(configuration.isOn ? .white : .black)
-                    .font(.system(size: 24))
-            }
-        }
-    }
-}
-
-extension View {
-    public func addBorder<S>(_ content: S, width: CGFloat = 1, cornerRadius: CGFloat) -> some View where S: ShapeStyle {
-        let roundedRect = RoundedRectangle(cornerRadius: cornerRadius)
-        return clipShape(roundedRect)
-            .overlay(roundedRect.strokeBorder(content, lineWidth: width))
     }
 }

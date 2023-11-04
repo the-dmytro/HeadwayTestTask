@@ -25,6 +25,8 @@ class AudioPlayerViewModel: ObservableObject {
     @Published var currentTimeText: String = "0:00"
     @Published var durationText: String = "0:00"
     
+    private var isSeekingActive = false
+    
     private let store: Store<AppState, AppAction>
     private var cancellableSet: Set<AnyCancellable> = []
     
@@ -70,7 +72,9 @@ class AudioPlayerViewModel: ObservableObject {
                 guard let self else {
                     return
                 }
-                self.currentTime = time
+                if self.isSeekingActive == false { // TODO: Solve issue with isSeekingActive false all the time
+                    self.currentTime = time
+                }
             }
             .store(in: &cancellableSet)
         
@@ -114,6 +118,10 @@ class AudioPlayerViewModel: ObservableObject {
     
     func seekToTimeAction(_ time: TimeInterval) {
         seekToTime(time)
+    }
+    
+    func setSeekingActive(_ isActive: Bool) {
+        isSeekingActive = isActive
     }
     
     // MARK: Private interface

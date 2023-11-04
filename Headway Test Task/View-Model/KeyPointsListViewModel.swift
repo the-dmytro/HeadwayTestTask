@@ -4,7 +4,6 @@
 
 import ComposableArchitecture
 import Combine
-import SwiftUI
 
 class KeyPointsListViewModel: ObservableObject {
     @Published var keyPoints: [BookSummaryKeyPoint] = []

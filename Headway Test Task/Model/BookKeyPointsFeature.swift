@@ -19,6 +19,7 @@ struct BookKeyPointsFeature: Reducer {
         case keyPointSelected(BookSummaryKeyPoint)
         case adjustKeyPointToTime(TimeInterval)
         case deselectKeyPoint
+        case unloadKeyPoints
     }
     
     func reduce(into state: inout State, action: Action) -> Effect<Action> {
@@ -49,6 +50,11 @@ struct BookKeyPointsFeature: Reducer {
             return .none
             
         case .deselectKeyPoint:
+            state.selectedKeyPoint = nil
+            return .none
+            
+        case .unloadKeyPoints:
+            state.keyPoints = []
             state.selectedKeyPoint = nil
             return .none
         }

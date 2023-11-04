@@ -10,8 +10,8 @@ import ComposableArchitecture
 
 struct ContentView: View {
     @Dependency(\.appCore) var appCore
+    
     var body: some View {
-        BookSummaryView(viewModel: appCore.bookSummaryViewModel())
-            .background(Color(red: 254 / 255, green: 248 / 255, blue: 244 / 255))
+        BookView(viewModel: appCore.booksViewModel())
     }
 }

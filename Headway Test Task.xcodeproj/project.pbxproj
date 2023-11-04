@@ -28,14 +28,20 @@
 		D592742A54D18289ED26EBBE /* DataModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = D592749756AD97BD3A547924 /* DataModels.swift */; };
 		D59274C1E34901D3C07A4299 /* ScenarioFeature.swift in Sources */ = {isa = PBXBuildFile; fileRef = D592707FF5165676B5553A5B /* ScenarioFeature.swift */; };
 		D59274F6B9F8EFA833DD7B74 /* DataProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = D59274429934E24C63A7538D /* DataProvider.swift */; };
+		D5927569CBDC23F01D549D1F /* CommonViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = D592750CCBCDA1208F615F39 /* CommonViews.swift */; };
 		D59276071062535AF0B3FE97 /* AppCore.swift in Sources */ = {isa = PBXBuildFile; fileRef = D592744B4ABE13F37AFA079B /* AppCore.swift */; };
+		D59277B617A43D5C34ED21A9 /* ViewStyles.swift in Sources */ = {isa = PBXBuildFile; fileRef = D59273446D4D977706E567BB /* ViewStyles.swift */; };
 		D592790C5308AC9BD8A20F72 /* AppReducer.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5927915966D73AA71F5E92D /* AppReducer.swift */; };
 		D5927A5E10D4ACF4ADE0BB72 /* PurchasesProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5927C02C6513930B9A73163 /* PurchasesProvider.swift */; };
 		D5927B51DF81C2120CE51C8C /* Actions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D59272FE094DC46FA0DACF69 /* Actions.swift */; };
+		D5927BD6C0B42E1D41A68DA7 /* ViewExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5927D234A1064009BA44904 /* ViewExtensions.swift */; };
+		D5927BF9B4280D3233957830 /* BookView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5927137D96589D9698E7DBD /* BookView.swift */; };
 		D5927CB1142D3C82FE182199 /* KeyPointsListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5927318F45021449F408C96 /* KeyPointsListViewModel.swift */; };
 		D5927D2891CE28AD2F279C8C /* PayWallViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5927AEEDADB253132DA7D69 /* PayWallViewModel.swift */; };
+		D5927D8B30A9886F0A256903 /* Colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = D59278A8D400211548A7D535 /* Colors.swift */; };
 		D5927D9847170BE40EE12A81 /* KeyPointsListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5927B83641F23E210C07A7F /* KeyPointsListView.swift */; };
 		D5927DA79AB4CB248DA852CE /* PayWallView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D59272C0667B4E9E4BFC4AD5 /* PayWallView.swift */; };
+		D5927EA5A2DF9FFE4C9E5006 /* BooksViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5927F10BF0B7A9B6E98C82C /* BooksViewModel.swift */; };
 		D5927ECF02EFE5F361B4A970 /* AudioPlayerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D592743B9260FDBFE9A50B60 /* AudioPlayerView.swift */; };
 		D5927EE30DFBECD252E6B435 /* BookStoreFeature.swift in Sources */ = {isa = PBXBuildFile; fileRef = D592741AB3B7B8CA0B1C1C20 /* BookStoreFeature.swift */; };
 		D5927F9196914A66884106C9 /* BookSummaryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5927DEF7636526B39F7CABD /* BookSummaryView.swift */; };
@@ -78,21 +84,27 @@
 		B4BFE1AD2AE94C5900F07942 /* Headway_Test_TaskUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Headway_Test_TaskUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		B4F54E212AF13D9100A759DD /* atomic_habits_cover.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = atomic_habits_cover.jpg; sourceTree = "<group>"; };
 		D592707FF5165676B5553A5B /* ScenarioFeature.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ScenarioFeature.swift; sourceTree = "<group>"; };
+		D5927137D96589D9698E7DBD /* BookView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BookView.swift; sourceTree = "<group>"; };
 		D59272C0667B4E9E4BFC4AD5 /* PayWallView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PayWallView.swift; sourceTree = "<group>"; };
 		D59272FE094DC46FA0DACF69 /* Actions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Actions.swift; sourceTree = "<group>"; };
 		D5927318F45021449F408C96 /* KeyPointsListViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeyPointsListViewModel.swift; sourceTree = "<group>"; };
+		D59273446D4D977706E567BB /* ViewStyles.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewStyles.swift; sourceTree = "<group>"; };
 		D592741AB3B7B8CA0B1C1C20 /* BookStoreFeature.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BookStoreFeature.swift; sourceTree = "<group>"; };
 		D592743B9260FDBFE9A50B60 /* AudioPlayerView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AudioPlayerView.swift; sourceTree = "<group>"; };
 		D59274429934E24C63A7538D /* DataProvider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataProvider.swift; sourceTree = "<group>"; };
 		D592744B4ABE13F37AFA079B /* AppCore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppCore.swift; sourceTree = "<group>"; };
 		D592749756AD97BD3A547924 /* DataModels.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataModels.swift; sourceTree = "<group>"; };
+		D592750CCBCDA1208F615F39 /* CommonViews.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CommonViews.swift; sourceTree = "<group>"; };
 		D59276DBC4EA450BA744786C /* BookKeyPointsFeature.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BookKeyPointsFeature.swift; sourceTree = "<group>"; };
+		D59278A8D400211548A7D535 /* Colors.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Colors.swift; sourceTree = "<group>"; };
 		D5927915966D73AA71F5E92D /* AppReducer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppReducer.swift; sourceTree = "<group>"; };
 		D5927A168432810691567C58 /* books.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = books.json; sourceTree = "<group>"; };
 		D5927AEEDADB253132DA7D69 /* PayWallViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PayWallViewModel.swift; sourceTree = "<group>"; };
 		D5927B83641F23E210C07A7F /* KeyPointsListView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeyPointsListView.swift; sourceTree = "<group>"; };
 		D5927C02C6513930B9A73163 /* PurchasesProvider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PurchasesProvider.swift; sourceTree = "<group>"; };
+		D5927D234A1064009BA44904 /* ViewExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewExtensions.swift; sourceTree = "<group>"; };
 		D5927DEF7636526B39F7CABD /* BookSummaryView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BookSummaryView.swift; sourceTree = "<group>"; };
+		D5927F10BF0B7A9B6E98C82C /* BooksViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BooksViewModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -148,6 +160,7 @@
 				B4BE964B2AEBB89B00AFC4EC /* AudioPlayerViewModel.swift */,
 				D5927318F45021449F408C96 /* KeyPointsListViewModel.swift */,
 				D5927AEEDADB253132DA7D69 /* PayWallViewModel.swift */,
+				D5927F10BF0B7A9B6E98C82C /* BooksViewModel.swift */,
 			);
 			path = "View-Model";
 			sourceTree = "<group>";
@@ -159,6 +172,8 @@
 				D5927DEF7636526B39F7CABD /* BookSummaryView.swift */,
 				D5927B83641F23E210C07A7F /* KeyPointsListView.swift */,
 				D59272C0667B4E9E4BFC4AD5 /* PayWallView.swift */,
+				D592718D07E630D76354ACEB /* ViewExtensions */,
+				D5927137D96589D9698E7DBD /* BookView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -231,6 +246,17 @@
 				B44EACA82AF51FF900E81D58 /* atomic_habits_brief_summary_ukr.m4a */,
 			);
 			path = Resources;
+			sourceTree = "<group>";
+		};
+		D592718D07E630D76354ACEB /* ViewExtensions */ = {
+			isa = PBXGroup;
+			children = (
+				D5927D234A1064009BA44904 /* ViewExtensions.swift */,
+				D59273446D4D977706E567BB /* ViewStyles.swift */,
+				D59278A8D400211548A7D535 /* Colors.swift */,
+				D592750CCBCDA1208F615F39 /* CommonViews.swift */,
+			);
+			path = ViewExtensions;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -395,6 +421,12 @@
 				D5927CB1142D3C82FE182199 /* KeyPointsListViewModel.swift in Sources */,
 				D5927DA79AB4CB248DA852CE /* PayWallView.swift in Sources */,
 				D5927D2891CE28AD2F279C8C /* PayWallViewModel.swift in Sources */,
+				D5927BD6C0B42E1D41A68DA7 /* ViewExtensions.swift in Sources */,
+				D59277B617A43D5C34ED21A9 /* ViewStyles.swift in Sources */,
+				D5927D8B30A9886F0A256903 /* Colors.swift in Sources */,
+				D5927BF9B4280D3233957830 /* BookView.swift in Sources */,
+				D5927569CBDC23F01D549D1F /* CommonViews.swift in Sources */,
+				D5927EA5A2DF9FFE4C9E5006 /* BooksViewModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -435,7 +467,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = NO;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
@@ -498,7 +530,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = NO;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";

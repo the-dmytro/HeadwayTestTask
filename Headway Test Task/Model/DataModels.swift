@@ -78,5 +78,20 @@ struct Purchase: Equatable {
     var title: String
     var description: String
     var price: String
-    var purchasingState: PurchasingState = .notLoaded
+    var status: PurchasingState = .notLoaded
+    
+    init(id: ID) {
+        self.id = id
+        self.title = ""
+        self.description = ""
+        self.price = ""
+    }
+    
+    init(id: ID, title: String, description: String, price: String, status: PurchasingState) {
+        self.id = id
+        self.title = title
+        self.description = description
+        self.price = price
+        self.status = status
+    }
 }

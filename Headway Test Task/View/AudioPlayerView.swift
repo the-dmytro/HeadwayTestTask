@@ -21,7 +21,8 @@ struct AudioPlayerView: View {
         Slider(value: $viewModel.currentTime,
             in: 0...viewModel.duration,
             onEditingChanged: { editing in
-                if !editing {
+                viewModel.setSeekingActive(editing)
+                if editing == false {
                     viewModel.seekToTimeAction(viewModel.currentTime)
                 }
             },
@@ -80,7 +81,7 @@ struct AudioPlayerView: View {
     
     private var seekToEndButton: some View {
         Button(action: {
-            viewModel.seekToStartAction()
+            viewModel.seekToEndAction()
         }, label: {
             Image(systemName: "forward.end.fill")
                 .playerButtonStyle(.small)
@@ -90,37 +91,12 @@ struct AudioPlayerView: View {
     private var minimumValueLabel: some View {
         Text(viewModel.currentTimeText)
             .font(.system(size: 12))
-            .foregroundColor(.gray)
+            .foregroundColor(.appGray)
     }
     
     private var maximumValueLabel: some View {
         Text(viewModel.durationText)
             .font(.system(size: 12))
-            .foregroundColor(.gray)
-    }
-}
-
-struct PlayerButtonStyle: ViewModifier {
-    enum PlayerButtonStyleType: CGFloat {
-        case small = 23
-        case medium = 28
-        case large = 36
-    }
-    
-    let type: PlayerButtonStyleType
-    init(_ type: PlayerButtonStyleType = .medium) {
-        self.type = type
-    }
-    
-    func body(content: Content) -> some View {
-        content
-            .font(.system(size: type.rawValue))
-            .foregroundColor(.black)
-    }
-}
-
-extension Image {
-    func playerButtonStyle(_ type: PlayerButtonStyle.PlayerButtonStyleType) -> some View {
-        self.modifier(PlayerButtonStyle(type))
+            .foregroundColor(.appGray)
     }
 }

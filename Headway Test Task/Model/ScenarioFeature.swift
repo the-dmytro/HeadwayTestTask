@@ -48,11 +48,17 @@ struct ScenarioFeature: Reducer {
     private func processBookSummaryAction(_ action: BookSummaryFeature.Action) -> Effect<Action> {
         switch action {
         case .deselectBook:
-            return .send(.audioPlayer(.unloadAudio))
+            return .merge(
+                .send(.audioPlayer(.unloadAudio)),
+                .send(.bookKeyPoints(.unloadKeyPoints)),
+                .send(.purchases(.deselectPurchase))
+            )
         case .selectBook(let book):
             return .merge(
                 .send(.bookKeyPoints(.loadKeyPoints(book.keyPoints))),
-                .send(.audioPlayer(.loadMetaData(book.audioMetaData)))
+                .send(.audioPlayer(.loadMetaData(book.audioMetaData))),
+                .send(.audioPlayer(.loadCuePoints(book.keyPoints.map { $0.start }))),
+                .send(.purchases(.selectPurchase(book.productId)))
             )
         default:
             return .none
