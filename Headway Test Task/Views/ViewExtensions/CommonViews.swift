@@ -17,6 +17,7 @@ struct BigBlueButton: View {
                 Text(title)
                     .frame(minWidth: 0, maxWidth: .infinity)
                     .foregroundColor(.invertibleWhite)
+                    .lineLimit(1)
             }
         })
             .disabled(isEnabled == false)

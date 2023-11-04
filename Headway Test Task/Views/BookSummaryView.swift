@@ -7,7 +7,7 @@ import ComposableArchitecture
 
 struct BookSummaryView: View {
     @Dependency(\.appCore) var appCore
-    @ObservedObject var viewModel: BookSummaryViewModel
+    @StateObject var viewModel: BookSummaryViewModel
     
     var body: some View {
         VStack(alignment: .center) {

@@ -5,7 +5,7 @@
 import SwiftUI
 
 struct KeyPointsListView: View {
-    @ObservedObject var viewModel: KeyPointsListViewModel
+    @StateObject var viewModel: KeyPointsListViewModel
     var body: some View {
         VStack(alignment: .center) {
             List(viewModel.keyPoints, id: \.id) { keyPoint in

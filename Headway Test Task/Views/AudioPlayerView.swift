@@ -5,11 +5,13 @@
 import SwiftUI
 
 struct AudioPlayerView: View {
-    @ObservedObject var viewModel: AudioPlayerViewModel
+    @StateObject var viewModel: AudioPlayerViewModel
     
     var body: some View {
         VStack(spacing: 16) {
             slider
+            switchSpeedButton
+            Spacer()
             buttons
         }
             .padding(16)
@@ -98,5 +100,21 @@ struct AudioPlayerView: View {
         Text(viewModel.durationText)
             .font(.system(size: 12))
             .foregroundColor(.appGray)
+    }
+    
+    private var switchSpeedButton: some View {
+        Button(action: {
+            viewModel.switchSpeedAction()
+        }, label: {
+            ZStack {
+                RoundedRectangle(cornerRadius: 6)
+                    .foregroundColor(.appGray.opacity(0.2))
+                Text(viewModel.playingSpeedText)
+                    .font(.system(size: 12, weight: .semibold))
+                    .lineLimit(1)
+                    .foregroundColor(.invertibleBlack)
+            }
+                .frame(width: 74, height: 28)
+        })
     }
 }

@@ -12,8 +12,8 @@ class PayWallViewModel: ObservableObject {
     @Published var isProcessingPurchase = false
     @Published var isAvailable = false
     @Published var purchaseButtonText = "-"
-    @Published var generalErrorText = ""
-    @Published var purchaseErrorText = ""
+    @Published var generalErrorText: String?
+    @Published var purchaseErrorText: String?
     
     private var selectedPurchase: Purchase? {
         didSet {
@@ -41,8 +41,12 @@ class PayWallViewModel: ObservableObject {
                 guard let self else {
                     return
                 }
+                self.generalErrorText = nil
+                self.purchaseErrorText = nil
+                
                 let loadingState = combined.0
                 let selectedPurchase = combined.1
+                
                 switch loadingState {
                 case .notLoaded:
                     self.isPresented = true
@@ -64,9 +68,19 @@ class PayWallViewModel: ObservableObject {
                     self.isLoading = false
                     self.isProcessingPurchase = false
                     self.isAvailable = false
+                    self.generalErrorText = "Unable to load purchases, please wait a moment"
+                }
+                
+                if let selectedPurchase = selectedPurchase {
+                    switch selectedPurchase.status {
+                    case .error:
+                        self.purchaseErrorText = "Unable to purchase, please try again"
+                        
+                    default:
+                        self.purchaseErrorText = nil
+                    }
                 }
                 self.selectedPurchase = selectedPurchase
-                self.isPresented = false // TODO: Remove after development
             }
             .store(in: &cancellableSet)
     }

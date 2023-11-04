@@ -85,8 +85,18 @@ struct ScenarioFeature: Reducer {
     
     private func processPurchasesAction(_ action: PurchasesFeature.Action) -> Effect<Action> {
         switch action {
-//        case .productPurchased(let purchase):
-//            return
+        case .unableToLoad:
+            return .run { send in
+                try await Task.wait(seconds: Double.random(in: 0.5...2))
+                await send(.purchases(.reloadProducts))
+            }
+            
+        case .unableToPurchase:
+            return .run { send in
+                try await Task.wait(seconds: Double.random(in: 0.5...2))
+                await send(.purchases(.resetSelectedPurchaseStatus))
+            }
+            
         default:
             return .none
         }

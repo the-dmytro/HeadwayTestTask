@@ -11,14 +11,6 @@ import ComposableArchitecture
 
 struct AudioPlayer {
     typealias CurrentTimeUpdateCallback = (TimeInterval) async -> Void
-    enum DataFailure: Error, Equatable {
-        case fileNotFound
-        case fileNotLoaded
-    }
-    enum PlayingFailure: Error, Equatable {
-        case playerNotLoaded
-        case outOfDurationRange
-    }
     var loadLocalFile: @Sendable (String) async -> DataFailure?
     var unload: @Sendable () async -> Void
     var play: @Sendable () async -> PlayingFailure?

@@ -7,21 +7,13 @@ import StoreKit
 import ComposableArchitecture
 
 struct PurchasesProvider {
-    enum Failure: Error {
-        case productNotFound
-        case purchaseUnverified(Error)
-        case purchaseFailed
-        case purchaseCancelled
-        case purchasePending
-        case unknownPurchaseResult
-    }
     var loadPurchasesAvailability: @Sendable ([Purchase.ID]) async throws -> [Purchase.ID: Purchase]
     var purchase: @Sendable (Purchase.ID) async throws -> Void
 }
 
 extension PurchasesProvider: DependencyKey {
     static var liveValue: Self {
-        let providerActor = Actor()
+        let providerActor = FakeActor()
         return Self(
             loadPurchasesAvailability: {
                 try await providerActor.loadPurchasesAvailability($0)
@@ -56,21 +48,44 @@ extension PurchasesProvider: DependencyKey {
         
         func purchase(_ productId: Product.ID) async throws {
             guard let product = products[productId] else {
-                throw Failure.productNotFound
+                throw PurchaseFailure.productNotFound
             }
             let result = try await product.purchase()
             switch result {
             case let .success(.verified(transaction)):
                 await transaction.finish()
             case let .success(.unverified(_, error)):
-                throw Failure.purchaseUnverified(error)
+                throw PurchaseFailure.purchaseUnverified(error)
             case .userCancelled:
-                throw Failure.purchaseCancelled
+                throw PurchaseFailure.purchaseCancelled
             case .pending:
-                throw Failure.purchaseFailed // TODO: Process pending state
+                throw PurchaseFailure.purchaseFailed // TODO: Process pending state
             @unknown default:
-                throw Failure.unknownPurchaseResult
+                throw PurchaseFailure.unknownPurchaseResult
             }
+        }
+    }
+    
+    private actor FakeActor {
+        func loadPurchasesAvailability(_ productIDs: [Purchase.ID]) async throws -> [Purchase.ID: Purchase] {
+            try await Task.wait(seconds: Double.random(in: 0.5...1.5))
+            if Bool.random() {
+                throw PurchaseFailure.productNotFound
+            }
+            return productIDs.reduce(into: [:]) { result, productID in
+                result[productID] = Purchase(id: productID, title: "Атомні звички", description: "Стислий переказ бестселлера Джеймса Кліра, згенерований ChatGPT, озвучений синтезатором голосу Lesya на macOS", price: "250 UAH", status: .available)
+            } as [Purchase.ID: Purchase]
+        }
+        
+        func purchase(_ productId: Product.ID) async throws {
+            try await Task.wait(seconds: Double.random(in: 0.5...1.5))
+            if Bool.random() {
+                throw Bool.random() ? PurchaseFailure.purchaseFailed : PurchaseFailure.purchaseCancelled
+            }
+        }
+        
+        func wait(seconds: Double) async throws {
+            try await Task.sleep(nanoseconds: UInt64(seconds * 1_000_000_000))
         }
     }
 }
@@ -83,5 +98,11 @@ extension DependencyValues {
         set {
             self[PurchasesProvider.self] = newValue
         }
+    }
+}
+
+extension Task where Success == Never, Failure == Never {
+    static func wait(seconds: Double) async throws {
+        try await Task.sleep(nanoseconds: UInt64(seconds * 1_000_000_000))
     }
 }

@@ -7,11 +7,6 @@ import ComposableArchitecture
 import UIKit
 
 struct DataProvider {
-    enum LoadingFailure: Error {
-        case imageNotFound
-        case imageDataCorrupted
-        case booksNotFound
-    }
     var loadImage: @Sendable (String) async throws -> UIImage?
     var loadBooks: @Sendable () async throws -> [BookSummary]
 }
@@ -30,12 +25,15 @@ extension DataProvider: DependencyKey {
     }
     
     private actor Actor {
+        @Dependency(\.mainBundle) var bundle
+        
         func loadImage(name: String) async throws -> UIImage? {
+            try await Task.wait(seconds: Double.random(in: 0.5...1))
             let url: URL?
-            if let path = Bundle.main.path(forResource: name, ofType: "jpg") {
+            if let path = bundle.path(forResource: name, ofType: "jpg") {
                 url = URL(fileURLWithPath: path)
             }
-            else if let path = Bundle.main.path(forResource: name, ofType: "png") {
+            else if let path = bundle.path(forResource: name, ofType: "png") {
                 url = URL(fileURLWithPath: path)
             }
             else {
@@ -44,17 +42,18 @@ extension DataProvider: DependencyKey {
             if let url = url {
                 let data = try Data(contentsOf: url)
                 guard let image = UIImage(data: data) else {
-                    throw LoadingFailure.imageDataCorrupted
+                    throw DataFailure.imageDataCorrupted
                 }
                 return image
             }
             else {
-                throw LoadingFailure.imageNotFound
+                throw DataFailure.imageNotFound
             }
         }
         
         func loadBooks() async throws -> [BookSummary] {
-            if let url = Bundle.main.url(forResource: "books", withExtension: "json") {
+            try await Task.wait(seconds: Double.random(in: 0.5...1))
+            if let url = bundle.url(forResource: "books", withExtension: "json") {
                 let data = try Data(contentsOf: url)
                 let decoder = JSONDecoder()
                 return try decoder.decode(BookSummaries.self, from: data).summaries
@@ -73,6 +72,21 @@ extension DependencyValues {
         }
         set {
             self[DataProvider.self] = newValue
+        }
+    }
+}
+
+extension Bundle: DependencyKey {
+    public static let liveValue = Bundle.main
+}
+
+extension DependencyValues {
+    var mainBundle: Bundle {
+        get {
+            self[Bundle.self]
+        }
+        set {
+            self[Bundle.self] = newValue
         }
     }
 }

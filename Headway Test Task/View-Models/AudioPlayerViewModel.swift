@@ -10,6 +10,35 @@ import ComposableArchitecture
 import Combine
 
 class AudioPlayerViewModel: ObservableObject {
+    enum PlayingSpeed: Float, CaseIterable {
+        case x0_5 = 0.5
+        case x1 = 1
+        case x1_5 = 1.5
+        case x2 = 2
+        
+        var title: String {
+            switch self {
+            case .x0_5:
+                return "0.5x"
+            case .x1:
+                return "1x"
+            case .x1_5:
+                return "1.5x"
+            case .x2:
+                return "2x"
+            }
+        }
+        
+        var next: PlayingSpeed {
+            if self == Self.allCases.last {
+                return Self.allCases.first!
+            }
+            else {
+                return Self.allCases.first(where: { $0.rawValue > self.rawValue })!
+            }
+        }
+    }
+    
     @Published var isLoaded: Bool = false
     @Published var isPlaying: Bool = false
     @Published var currentTime: TimeInterval = 0 {
@@ -24,8 +53,15 @@ class AudioPlayerViewModel: ObservableObject {
     }
     @Published var currentTimeText: String = "0:00"
     @Published var durationText: String = "0:00"
+    @Published var playingSpeedText = "Speed: \(PlayingSpeed.x1.title)"
     
     private var isSeekingActive = false
+    private var playingSpeed: PlayingSpeed = .x1 {
+        didSet {
+            playingSpeedText = "Speed: \(playingSpeed.title)"
+            print("playingSpeed: \(playingSpeed), playingSpeedText: \(playingSpeedText)")
+        }
+    }
     
     private let store: Store<AppState, AppAction>
     private var cancellableSet: Set<AnyCancellable> = []
@@ -124,6 +160,10 @@ class AudioPlayerViewModel: ObservableObject {
         isSeekingActive = isActive
     }
     
+    func switchSpeedAction() {
+        switchSpeed()
+    }
+    
     // MARK: Private interface
     
     private func play() {
@@ -152,5 +192,10 @@ class AudioPlayerViewModel: ObservableObject {
     
     func seekToTime(_ time: TimeInterval) {
         store.send(.audioPlayer(.seekToTime(time)))
+    }
+    
+    func switchSpeed() {
+        playingSpeed = playingSpeed.next
+        store.send(.audioPlayer(.setPlayingRate(playingSpeed.rawValue)))
     }
 }

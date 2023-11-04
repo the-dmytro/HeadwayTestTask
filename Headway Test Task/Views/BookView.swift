@@ -7,7 +7,7 @@ import ComposableArchitecture
 
 struct BookView: View {
     @Dependency(\.appCore) var appCore
-    @ObservedObject var viewModel: BooksViewModel
+    @StateObject var viewModel: BooksViewModel
     
     var body: some View {
         ZStack {

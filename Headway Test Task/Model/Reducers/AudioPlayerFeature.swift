@@ -17,10 +17,6 @@ struct AudioPlayerFeature: Reducer {
     
     //MARK: Types
     
-    enum Failure: Error, Equatable {
-        case durationMismatch
-    }
-    
     enum AudioLoadingState: Equatable {
         case notLoaded
         case loading
@@ -85,6 +81,7 @@ struct AudioPlayerFeature: Reducer {
         case pausedPlaying
         case updateCurrentTime(TimeInterval)
         case updateDuration(TimeInterval)
+        case setPlayingRate(Float)
         case playerFailure(Error)
         
         static func ==(lhs: AudioPlayerFeature.Action, rhs: AudioPlayerFeature.Action) -> Bool {
@@ -252,11 +249,16 @@ struct AudioPlayerFeature: Reducer {
         case .updateDuration(let duration):
             if let metaData = state.metaData, metaData.duration != duration {
                 return .run { send in
-                    await send(.loadingFailure(Failure.durationMismatch))
+                    await send(.loadingFailure(PlayingFailure.durationMismatch))
                 }
             }
             else {
                 return .none
+            }
+        
+        case .setPlayingRate(let rate):
+            return .run { send in
+                await audioPlayer.setRate(rate)
             }
             
         case .unloadAudio:

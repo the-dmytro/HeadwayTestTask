@@ -5,7 +5,7 @@
 import SwiftUI
 
 struct PayWallView: View {
-    @ObservedObject var viewModel: PayWallViewModel
+    @StateObject var viewModel: PayWallViewModel
     
     var body: some View {
         if viewModel.isPresented {
@@ -34,17 +34,23 @@ struct PayWallView: View {
     }
     
     private var purchaseView: some View {
-        VStack(spacing: 24) {
-            if viewModel.isLoading {
-                loadingView
-            } else {
-                title
-                subtitle
-                purchaseButtonView
+        ZStack {
+            Color.appBackgroudColor
+                .frame(height: 240)
+            VStack(spacing: 24) {
+                if viewModel.isLoading {
+                    loadingView
+                } else {
+                    if let generalErrorText = viewModel.generalErrorText {
+                        errorView(text: generalErrorText)
+                    } else {
+                        title
+                        subtitle
+                        purchaseButtonView
+                    }
+                }
             }
         }
-            .frame(height: 240)
-            .background(Color.appBackgroudColor)
     }
     
     private var title: some View {
@@ -65,29 +71,44 @@ struct PayWallView: View {
     private var purchaseButtonView: some View {
         ZStack {
             Color.appGray
-                .frame(height: 50)
                 .padding(.horizontal, 16)
             Group {
                 if viewModel.isProcessingPurchase {
                     ProgressView()
                         .progressViewStyle(.circular)
                 } else {
-                    BigBlueButton(title: viewModel.purchaseButtonText,
-                                  isEnabled: true) {
-                        viewModel.purchaseAction()
+                    if let purchaseErrorText = viewModel.purchaseErrorText {
+                        BigBlueButton(title: purchaseErrorText,
+                            isEnabled: false) {
+                            viewModel.purchaseAction()
+                        }
+                    }
+                    else {
+                        BigBlueButton(title: viewModel.purchaseButtonText,
+                            isEnabled: viewModel.isAvailable) {
+                            viewModel.purchaseAction()
+                        }
                     }
                 }
             }
         }
+            .frame(height: 50)
             .mask(
                 RoundedRectangle(cornerRadius: 10)
                     .frame(height: 50)
                     .padding(.horizontal, 16)
             )
-            .animation(.easeInOut, value: viewModel.isProcessingPurchase)
     }
     
     private var loadingView: some View {
         LoadingView()
+    }
+    
+    private func errorView(text: String) -> some View {
+        Text(text)
+            .font(.system(size: 16, weight: .regular))
+            .foregroundColor(.invertibleBlack)
+            .multilineTextAlignment(.center)
+            .padding(.top, 10)
     }
 }
