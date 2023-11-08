@@ -13,7 +13,7 @@ struct PurchasesProvider {
 
 extension PurchasesProvider: DependencyKey {
     static var liveValue: Self {
-        let providerActor = FakeActor()
+        let providerActor = Actor()
         return Self(
             loadPurchasesAvailability: {
                 try await providerActor.loadPurchasesAvailability($0)

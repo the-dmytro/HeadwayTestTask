@@ -20,6 +20,7 @@
 		B4BFE1AC2AE94C5900F07942 /* Headway_Test_TaskUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4BFE1AB2AE94C5900F07942 /* Headway_Test_TaskUITests.swift */; };
 		B4BFE1AE2AE94C5900F07942 /* Headway_Test_TaskUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4BFE1AD2AE94C5900F07942 /* Headway_Test_TaskUITestsLaunchTests.swift */; };
 		B4BFE1BC2AE94E6000F07942 /* ComposableArchitecture in Frameworks */ = {isa = PBXBuildFile; productRef = B4BFE1BB2AE94E6000F07942 /* ComposableArchitecture */; };
+		B4E4E1912AFB6AD200FAD166 /* HeadwayTestPurchases.storekit in Resources */ = {isa = PBXBuildFile; fileRef = B4E4E1902AFB6AD200FAD166 /* HeadwayTestPurchases.storekit */; };
 		B4F54E222AF13D9100A759DD /* atomic_habits_cover.jpg in Resources */ = {isa = PBXBuildFile; fileRef = B4F54E212AF13D9100A759DD /* atomic_habits_cover.jpg */; };
 		D5927227DEE8E824F94EB417 /* Failures.swift in Sources */ = {isa = PBXBuildFile; fileRef = D59272C647CFB210BD35C44F /* Failures.swift */; };
 		D59273C257F971528442F3C9 /* BookKeyPointsFeature.swift in Sources */ = {isa = PBXBuildFile; fileRef = D59272DC88CA66F4F341A6F4 /* BookKeyPointsFeature.swift */; };
@@ -80,6 +81,7 @@
 		B4BFE1A72AE94C5900F07942 /* Headway Test TaskUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Headway Test TaskUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		B4BFE1AB2AE94C5900F07942 /* Headway_Test_TaskUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Headway_Test_TaskUITests.swift; sourceTree = "<group>"; };
 		B4BFE1AD2AE94C5900F07942 /* Headway_Test_TaskUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Headway_Test_TaskUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		B4E4E1902AFB6AD200FAD166 /* HeadwayTestPurchases.storekit */ = {isa = PBXFileReference; lastKnownFileType = text; path = HeadwayTestPurchases.storekit; sourceTree = "<group>"; };
 		B4F54E212AF13D9100A759DD /* atomic_habits_cover.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = atomic_habits_cover.jpg; sourceTree = "<group>"; };
 		D592708E6FAFA86CD5FB3167 /* AudioPlayerFeature.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AudioPlayerFeature.swift; sourceTree = "<group>"; };
 		D59270A343978EDF820AA303 /* Actions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Actions.swift; sourceTree = "<group>"; };
@@ -236,6 +238,7 @@
 		B4F54E202AF13D7100A759DD /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				B4E4E1902AFB6AD200FAD166 /* HeadwayTestPurchases.storekit */,
 				B4F54E212AF13D9100A759DD /* atomic_habits_cover.jpg */,
 				D5927A168432810691567C58 /* books.json */,
 				B44EACA82AF51FF900E81D58 /* atomic_habits_brief_summary_ukr.m4a */,
@@ -389,6 +392,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				B44EAC9F2AF4F09B00E81D58 /* books.json in Resources */,
+				B4E4E1912AFB6AD200FAD166 /* HeadwayTestPurchases.storekit in Resources */,
 				B4F54E222AF13D9100A759DD /* atomic_habits_cover.jpg in Resources */,
 				B44EACAA2AF5557D00E81D58 /* atomic_habits_brief_summary_ukr.m4a in Resources */,
 				B4BFE1932AE94C5900F07942 /* Preview Assets.xcassets in Resources */,
